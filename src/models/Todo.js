@@ -1,10 +1,11 @@
-class Todo {
+export class Todo {
     constructor(title, description, dueDate, priority) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.completed = false;
+        this.id = Date.now();
     }
 
     toggleCompleted() {
@@ -19,10 +20,8 @@ class Todo {
     getSummary() {
         const status = this.completed ? `Concluido` : `Em progresso`;
         return `Title: ${this.title} | 
-        Description ${this.description} | 
-        Date ${this.dueDate} | Priority: ${this.priority} | 
-        Status: ${status}`
+                Description: ${this.description} | 
+                Date ${this.dueDate} | Priority: ${this.priority} | 
+                Status: ${status}`
     }
 }
-
-export default Todo;
