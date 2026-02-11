@@ -27,27 +27,65 @@ if (savedState) {
   saveState(appState);
 }
 
+const updateUI = () => {
+  renderProjects();
+  renderTodos();
+  saveState(appState);
+};
+
 const renderProjects = () => {
   const projectContainer = document.getElementById("project-container")
   projectContainer.textContent = "";
   
   const getListProjects = appState.getProjects();
 
-  for (const project of getListProjects) {
-    const getName = project.name;
-    const projectPara = document.createElement("p")
+for (const project of getListProjects) {
 
-    if (appState.activeProjectId === project.id) {
-      projectPara.textContent = `* ${getName}`;
-    } else {
-      projectPara.textContent = getName;
-    }
-    projectContainer.appendChild(projectPara);
+  const getName = project.name;
+  const projectPara = document.createElement("button")
+  projectPara.classList.add("project-btn")
+
+  projectPara.dataset.id = project.id;
+
+  if (appState.activeProjectId === project.id) {
+    projectPara.textContent = `* ${getName}`;
+  } else {
+    projectPara.textContent = getName;
   }
 
+  projectPara.addEventListener("click", (e) => {
+    const id = Number(e.currentTarget.dataset.id);
+    appState.defineActive(id);
+    updateUI();
+  });
+
+  projectContainer.appendChild(projectPara);
+}
+}
+
+const renderTodos = () => {
+  const todoContainer = document.getElementById("todo-container")
+  const getActiveProject = appState.getActiveProject()
+  todoContainer.textContent = "";
+
+  for (const todo of getActiveProject.todos) {
+    const todoPara = document.createElement("p");
+    todoPara.textContent = `${todo.title}, ${todo.dueDate}, ${todo.description}, ${todo.priority}`
+    todoContainer.appendChild(todoPara);
   }
 
+}
+
+const testProject = new Project("Teste Project");
+const todoTeste = new Todo("Todo testing", "Testing the todo class", "11/02/26", "high");
+const anotherTodoTest = new Todo("testnadsad", "sdasfsdg", "30;=-3", "high");
+testProject.addTodo(anotherTodoTest);
+testProject.addTodo(todoTeste);
+appState.addProject(testProject);
 
 
-  renderProjects()
+ 
+appState.defineActive(testProject.id);
+renderProjects()
+renderTodos()
 
