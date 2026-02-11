@@ -27,5 +27,27 @@ if (savedState) {
   saveState(appState);
 }
 
-console.log(appState);
+const renderProjects = () => {
+  const projectContainer = document.getElementById("project-container")
+  projectContainer.textContent = "";
+  
+  const getListProjects = appState.getProjects();
+
+  for (const project of getListProjects) {
+    const getName = project.name;
+    const projectPara = document.createElement("p")
+
+    if (appState.activeProjectId === project.id) {
+      projectPara.textContent = `* ${getName}`;
+    } else {
+      projectPara.textContent = getName;
+    }
+    projectContainer.appendChild(projectPara);
+  }
+
+  }
+
+
+
+  renderProjects()
 
