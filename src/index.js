@@ -5,8 +5,8 @@ import { AppState } from "./models/AppState";
 import { saveState, loadState } from "./models/storage";
 
 const appState = new AppState();
-
 const savedState = loadState();
+
 if (savedState) {
   appState.projects = savedState.projects.map(p => {
     const proj = new Project(p.name);
@@ -73,19 +73,56 @@ const renderTodos = () => {
     todoPara.textContent = `${todo.title}, ${todo.dueDate}, ${todo.description}, ${todo.priority}`
     todoContainer.appendChild(todoPara);
   }
-
 }
 
-const testProject = new Project("Teste Project");
-const todoTeste = new Todo("Todo testing", "Testing the todo class", "11/02/26", "high");
-const anotherTodoTest = new Todo("testnadsad", "sdasfsdg", "30;=-3", "high");
-testProject.addTodo(anotherTodoTest);
-testProject.addTodo(todoTeste);
-appState.addProject(testProject);
+const showBtn = document.getElementById("create-project-btn");
+const form = document.getElementById("project-form");
+const input = document.getElementById("project-name");
+
+showBtn.addEventListener("click", () => {
+  form.classList.toggle("hidden");
+});
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const projectName = input.value;
+  const newProject = new Project(projectName);
+  appState.addProject(newProject);
+  appState.defineActive(newProject.id);
+
+  updateUI();
+  form.reset();
+  form.classList.add("hidden");
+})
+
+const todoForm = document.getElementById("todo-form");
+const createTodoBtn = document.getElementById("create-todo-btn");
+
+createTodoBtn.addEventListener("click", () => {
+  todoForm.classList.toggle("hidden");
+});
+
+todoForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const title = e.target["title-todo"].value;
+  const description = e.target["description-todo"].value;
+  const date = e.target["date-todo"].value;
+  const priority = e.target["priority-todo"].value;
+
+  const newTodo = new Todo(title, description, date, priority);
+  const activeProject = appState.getActiveProject();
+  activeProject.addTodo(newTodo);
+
+  updateUI();
+  todoForm.reset();
+  todoForm.classList.add("hidden");
+});
 
 
- 
-appState.defineActive(testProject.id);
+
+
+
 renderProjects()
 renderTodos()
-

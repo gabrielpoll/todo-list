@@ -6,6 +6,27 @@
     <title>To do</title>
 </head>
 <body>
+    <button id="create-project-btn">Create Project</button>
+
+    <form id="project-form" class="hidden">
+        <input type="text" id="project-name" placeholder="Project Name" required>
+        <button type="submit">Create</button>
+    </form>
+
+    <button id="create-todo-btn">Add To-do</button>
+
+    <form id="todo-form" class="hidden">
+        <input type="text" id="title-todo" placeholder="Title" required>
+        <input type="text" id="description-todo" placeholder="Description" required>
+        <input type="date" id="date-todo" placeholder="Date" required>
+        <select id="priority-todo" required>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+        <button type="submit">Add</button>
+    </form>
+
     <div id="project-container"></div>
 
     <div id="todo-container"></div>
