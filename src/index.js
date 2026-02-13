@@ -71,7 +71,17 @@ const renderTodos = () => {
   for (const todo of getActiveProject.todos) {
     const todoPara = document.createElement("p");
     todoPara.textContent = `${todo.title}, ${todo.dueDate}, ${todo.description}, ${todo.priority}`
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete"
+
+    deleteBtn.addEventListener("click", () => {
+      getActiveProject.removeTodo(todo.id);
+      updateUI();
+    })
+
     todoContainer.appendChild(todoPara);
+    todoContainer.appendChild(deleteBtn);
   }
 }
 
