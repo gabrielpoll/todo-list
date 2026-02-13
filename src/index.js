@@ -70,7 +70,19 @@ const renderTodos = () => {
 
   for (const todo of getActiveProject.todos) {
     const todoPara = document.createElement("p");
-    todoPara.textContent = `${todo.title}, ${todo.dueDate}, ${todo.description}, ${todo.priority}`
+    todoPara.textContent = todo.title;
+
+    const details = document.createElement('div');
+    details.textContent = `
+    Description: ${todo.description}
+    Date: ${todo.dueDate}
+    Priority: ${todo.priority}
+    `;
+    details.classList.add("hidden")
+    
+    todoPara.addEventListener("click", () => {
+      details.classList.toggle("hidden");
+    });
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete"
@@ -81,6 +93,7 @@ const renderTodos = () => {
     })
 
     todoContainer.appendChild(todoPara);
+    todoContainer.appendChild(details);
     todoContainer.appendChild(deleteBtn);
   }
 }
